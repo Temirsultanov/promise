@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <title>Promise</title>
+</head>
+<body>
+    <h1 class="title">Самописный класс Promise
+        <img class="bicycle" src="bicycle.png" alt="Bicycle">
+        <img class="crutch" src="crutch.png" alt="Crutch">
+    </h1>
+    <button class="closeButton">
+        <svg width="29" height="14" viewBox="0 0 29 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27 2L14.5 12L2 2" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <div class="wrapper"><code><pre>
+<span class="code-statement">class</span> <span class="code-class">MyPromise</span> {
+    <span class="code-name">_resolveHandlers</span> = <span class="code-name">[]</span>
+    <span class="code-name">_resolveResults</span> = new <span class="code-class">Map</span><span class="code-name">()</span>
+
+    <span class="code-name">_PromiseState</span> = "<span class="code-string">pending</span>"
+    <span class="code-name">_PromiseResult</span> = <span class="code-argument">undefined</span>
+    
+    <span class="code-statement">constructor</span>(<span class="code-argument">callback</span>) {
+        <span class="code-statement">if</span> <span class="code-name">(</span>typeof <span class="code-name">callback</span> !== "<span class="code-string">function</span>"<span class="code-name">)</span> {
+            <span class="code-statement">return</span>;
+        }
+        <span class="code-this">this</span>.<span class="code-name">callback</span> = <span class="code-name">callback</span>;
+        <span class="code-this">this</span>.<span class="code-function">callback</span>(<span class="code-this">this</span>.<span class="code-name">resolve</span>);
+    }
+    <span class="code-function">then</span> = (<span class="code-argument">resolveHandler</span>) <span class="code-statement">=></span> {
+        <span class="code-statement">if</span> <span class="code-name">(</span>typeof <span class="code-name">resolveHandler</span> === "<span class="code-string">function</span>"<span class="code-name">)</span> { <span class="code-this">this</span>.<span class="code-name">_resolveHandlers</span>.<span class="code-function">push</span><span class="code-name">(resolveHandler)</span> };
+        <span class="code-statement">let</span> <span class="code-name">promise</span> = new <span class="code-function">MyPromise</span><span class="code-name">()</span>;
+
+        <span class="code-this">this</span>.<span class="code-name">_resolveResults</span>.<span class="code-function">set</span><span class="code-name">(resolveHandler</span>, <span class="code-name">promise)</span>;
+        <span class="code-statement">return</span> <span class="code-name">promise</span>;
+    }
+    <span class="code-function">resolve</span> = (<span class="code-argument">result</span>) <span class="code-statement">=></span> {
+        <span class="code-this">this</span>.<span class="code-name">_PromiseState</span> = "<span class="code-string">fulfilled</span>";
+        <span class="code-this">this</span>.<span class="code-name">_PromiseResult</span> = <span class="code-name">result</span>;
+
+        <span class="code-function">setTimeout</span><span class="code-name">(</span>() <span class="code-statement">=></span> {      
+            <span class="code-statement">for</span> <span class="code-name">(</span><span class="code-statement">let</span> <span class="code-name">resolveHandler</span> of <span class="code-this">this</span>.<span class="code-name">_resolveHandlers</span><span class="code-name">)</span> {
+                <span class="code-statement">let</span> <span class="code-name">handlerResult</span> = <span class="code-function">resolveHandler</span><span class="code-name">(</span><span class="code-this">this</span>.<span class="code-name">_PromiseResult</span><span class="code-name">)</span>;                
+                <span class="code-statement">let</span> <span class="code-name">promise</span> = <span class="code-this">this</span>.<span class="code-name">_resolveResults</span>.<span class="code-function">get</span><span class="code-name">(resolveHandler)</span>;
+
+                <span class="code-statement">if</span> <span class="code-name">(handlerResult</span> instanceof <span class="code-name">MyPromise)</span> {
+                    <span class="code-name">handlerResult</span>.<span class="code-function">then</span><span class="code-name">(</span>
+                        <span class="code-argument">result</span> <span class="code-statement">=></span> <span class="code-name">promise</span>.<span class="code-function">resolve</span><span class="code-name">(result)</span>
+                    <span class="code-nae">)</span>;
+                    <span class="code-statement">return</span>;
+                }
+
+                <span class="code-name">promise</span>.<span class="code-name">_PromiseState</span> = "<span class="code-string">fulfilled</span>";
+                <span class="code-name">promise</span>.<span class="code-name">_PromiseResult</span> = <span class="code-name">handlerResult</span>;
+                <span class="code-name">promise</span>.<span class="code-function">resolve</span>(<span class="code-name">handlerResult</span>);
+            }
+        }, <span class="code-argument">0</span><span class="code-name">)</span>;   
+    }
+}
+</pre>
+        </code>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="promise.js"></script>
+</body>
+</html>

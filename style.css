@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+
+    font-family: "Fira Code";
+    font-size: 40px;    
+    font-family: monospace;
+
+    background-color: rgb(12, 12, 12);
+    color: rgb(194, 194, 194);
+
+    margin: 0;
+}
+.title {
+    margin: 0;
+    margin-top: 30px;
+    font-size: 40px;
+    margin-bottom: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.bicycle {
+    height: 50px;
+    width: 50px;
+}
+.crutch {
+    height: 30px;
+}
+::selection {
+    background-color: #e1c861;
+    color: black;
+}
+code {
+    font-size: 18px;
+    color: #266e65;
+}
+.code-statement {
+    color: #905ca0;
+}
+.code-this {
+    color: #E44E4E;
+}
+.code-function {
+    color: #3B86BC;
+}
+.code-name {
+    color: #b1b1b1;
+}
+.code-string {
+    color: #2f8a58;
+}
+.code-class {
+    color: rgb(204, 183, 65);
+}
+.code-argument {
+    color: rgb(190, 110, 19);
+}
+.wrapper {
+    max-width: 90%;
+    margin-left: 40px;
+    padding: 20px;
+    height: 1000px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-color: #000;
+}
+.wrapper code {
+    width: 1400px;
+    height: 1000px; 
+    margin: 0;
+    padding: 0;
+}
+pre {
+    margin: 0;
+}
+.closeButton {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    left: 30px;
+    top: 146px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background-color: transparent;
+}
+.closeButton svg {
+    width: 40px;
+}
+.closeButton path {
+    stroke: rgb(131, 131, 131);
+}
+.close {
+    height: 63px;
+}
+.rotate {
+    transform: rotate(-90deg);
+}
+@media (max-width: 800px) {
+    .title {
+        font-size: 25px;
+    }
+}
+@media (max-width: 600px) {
+    .crutch {
+        display: none;
+    }
+}
+@media (max-width: 500px) {
+    .bicycle {
+        display: none;
+    }
+    .closeButton {
+        top: 128px;
+    }
+}
+@media (max-width: 400px) {
+    .title {
+        font-size: 20px;
+    }
+    .closeButton {
+        top: 120px;
+    }
+}
